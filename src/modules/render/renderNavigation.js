@@ -47,36 +47,37 @@ export const renderNavigation = (gender) => {
         ),
       },
     );
-  };
+  }
 
-  const categoryElems = dataNavigation[gender].list.map((item) => 
-    createElement('li', 
+  const categoryElems = dataNavigation[gender].list.map((item) =>
+    createElement(
+      'li',
       {
         className: 'category__item',
       },
       {
-        append: createElement('a', 
+        append: createElement(
+          'a',
           {
             className: 'category__link',
             textContent: item.title,
             href: `#/${gender}/${item.slug}`,
-          }, 
+          },
           {
             cb(elem) {
               elem.addEventListener('click', () => {
                 document
                   .querySelector('.category__link_active')
                   ?.classList.remove('category__link_active');
-    
-                  elem.classList.add('category__link_active')
-              })
-            }
-          }
+
+                elem.classList.add('category__link_active');
+              });
+            },
+          },
         ),
-        
-      }
-    )
-  )
+      },
+    ),
+  );
 
   createElement(
     'ul',
@@ -85,8 +86,7 @@ export const renderNavigation = (gender) => {
     },
     {
       parent: container,
-      appends: categoryElems
+      appends: categoryElems,
     },
   );
-
 };

@@ -1,5 +1,5 @@
 import { createElement } from '../createElement';
-import logo from '../../img/logo.svg'
+import logo from '../../img/logo.svg';
 
 export const searchButton = createElement('button', {
   className: 'header__link',

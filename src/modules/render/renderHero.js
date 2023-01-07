@@ -8,7 +8,7 @@ export const renderHero = (gender) => {
 
   hero.style.display = '';
 
-  hero.className = `hero hero__${gender}`
+  hero.className = `hero hero__${gender}`;
 
   hero.innerHTML = `
   <div class="container">
@@ -19,4 +19,4 @@ export const renderHero = (gender) => {
     </div>
   </div>
   `;
-}
+};
