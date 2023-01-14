@@ -49,11 +49,15 @@ h1,
 h2,
 h3,
 p,
-figure,
-fieldset {
+figure{
   margin: 0;
 }
 
+fieldset {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
 
 .visually-hidden {
   position: fixed;
