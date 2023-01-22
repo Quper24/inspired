@@ -7,9 +7,11 @@ import {
 import { createElement } from '../utils/createElement';
 import { renderCount } from './renderCount';
 
-export const renderCard = (data) => {
+export const renderCard = ({data, render}) => {
   card.textContent = '';
-  if (!data) return;
+  if (!render) {
+    return;
+  }
 
   const { id, title, description, price, colors, pic, size } = data;
 
