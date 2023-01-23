@@ -1,10 +1,15 @@
 import { API_URL, cart } from '../const';
-import { addProductCart, getCart, removeCart } from '../controllers/cartController';
+import {
+  addProductCart,
+  calcTotalPrice,
+  getCart,
+  removeCart,
+} from '../controllers/cartController';
 import { getData } from '../getData';
 import { createElement } from '../utils/createElement';
 import { renderCount } from './renderCount';
 
-export const renderCart = ({ render }) => {
+export const renderCart = ({ render, cartGoodsStore }) => {
   cart.textContent = '';
 
   if (!render) {
@@ -22,39 +27,40 @@ export const renderCart = ({ render }) => {
     },
   );
 
-
   const cartList = createElement(
     'ul',
     {
       className: 'cart__list',
     },
     {
-      parent: container
-    }
+      parent: container,
+    },
   );
 
-  getCart().forEach(async product => {
-    const data = await getData(`${API_URL}/api/goods/${product.id}`);
-    
+  getCart().forEach((product) => {
+    const data = cartGoodsStore.getProduct(product.id);
+
     const li = createElement(
       'li',
       {
         className: 'cart__item',
       },
-      {parent: cartList}
+      { parent: cartList },
     );
 
     const article = createElement(
       'article',
       {
-        className: 'item'
+        className: 'item',
       },
       {
-        parent: li
-      }
+        parent: li,
+      },
     );
 
-    article.insertAdjacentHTML('beforeend', `
+    article.insertAdjacentHTML(
+      'beforeend',
+      `
       <img src="${API_URL}/${data.pic}" alt="${data.title}" class="item__image">
 
       <div class="item__content">
@@ -82,13 +88,14 @@ export const renderCart = ({ render }) => {
         </div>
       </div>
 
-    `);
+    `,
+    );
 
     createElement(
       'button',
       {
         className: 'item__del',
-        ariaLabel: 'Удалить товар из корзины'
+        ariaLabel: 'Удалить товар из корзины',
       },
       {
         parent: article,
@@ -97,22 +104,23 @@ export const renderCart = ({ render }) => {
             const isRemove = removeCart(product);
             if (isRemove) {
               li.remove();
+              calcTotalPrice.update();
             }
-          })
-        }
-      }
-    )
+          });
+        },
+      },
+    );
 
     /* <button class="item__del" aria-label="Удалить товар из корзины"></button> */
 
-    const countBlock = renderCount(product.count, 'item__count', count => {
+    const countBlock = renderCount(product.count, 'item__count', (count) => {
       product.count = count;
-      addProductCart(product, true)
+      addProductCart(product, true);
+      calcTotalPrice.update();
     });
 
-    
-    article.insertAdjacentElement('beforeEnd', countBlock)
-  })
+    article.insertAdjacentElement('beforeEnd', countBlock);
+  });
 
   const cartTotal = createElement(
     'div',
@@ -129,9 +137,21 @@ export const renderCart = ({ render }) => {
     'p',
     {
       className: 'cart__total-price',
-      textContent: 'руб 0',
+      textContent: 'руб '
     },
-    { parent: cartTotal },
+    {
+      parent: cartTotal,
+      append: createElement(
+        'span',
+        {},
+        {
+          cb(elem) {
+            calcTotalPrice.update();
+            calcTotalPrice.writeTotal(elem);
+          },
+        },
+      ),
+    },
   );
 };
 
