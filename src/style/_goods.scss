@@ -20,6 +20,12 @@
       padding-bottom: 9px;
     }
   }
+
+  &__warning {
+    text-align: center;
+    padding: 20px 0;
+  }
+
   &__list {
     padding-top: 40px;
     display: grid;

@@ -31,9 +31,14 @@ export const cartGoodsStore = {
 export const calcTotalPrice = {
   elemTotalPrice: null,
   elemCount: null,
-  update() {
+  updateCount() {
     const cartGoods = getCart();
-    this.count = cartGoods.length;
+    this.count = cartGoods.reduce((acc, item) => item.count + acc, 0);
+    this.writeCount();
+
+  },
+  updateTotalPrice() {
+    const cartGoods = getCart();
     this.totalPrice = cartGoods.reduce((sum, item) => {
       const product = cartGoodsStore.getProduct(item.id);
       return product.price * item.count + sum
@@ -45,7 +50,12 @@ export const calcTotalPrice = {
       this.elemTotalPrice = elem;
       elem.textContent = this.totalPrice;
     }
-    
+  },
+  writeCount(elem = this.elemCount) {
+    if (elem) {
+      this.elemCount = elem;
+      elem.textContent = this.count;
+    }
   }
 
 }
@@ -100,15 +110,14 @@ export const clearCart = () => {
 
 
 export const cartController = async () => {
-  const idList = getCart().map(item => item.id);
-  const data = await getData(`${API_URL}/api/goods?list=${idList}&count=all`)
-
+  const idList = getCart().map((item) => item.id);
+  const data = await getData(`${API_URL}/api/goods?list=${idList}&count=all`);
   cartGoodsStore.add(data);
 
   renderNavigation({render: false});
   renderHero({render: false});
   renderCard({render: false});
   renderProducts({render: false});
-  renderCart({render: true, cartGoodsStore});
+  renderCart({render: true});
   renderOrder({render: true});
 }
