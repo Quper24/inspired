@@ -1,5 +1,5 @@
 import { API_URL, DATA, card } from '../const';
-import { addProductCart } from '../controllers/cartController';
+import { addProductCart, calcTotalPrice, cartGoodsStore } from '../controllers/cartController';
 import {
   getFavorite,
   handlerFavorite,
@@ -49,6 +49,7 @@ export const renderCard = ({data, render}) => {
 
           if (product.color && product.size && product.count) {
             addProductCart(product)
+            calcTotalPrice.updateCount();
             return;
           }
 

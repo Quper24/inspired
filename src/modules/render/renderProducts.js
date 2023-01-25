@@ -34,7 +34,7 @@ export const renderProducts = async ({title, params, render}) => {
     },
   );
 
-  if (Object.hasOwn(data, 'totalCount')) {
+  if (Object.prototype.hasOwnProperty(data, 'totalCount')) {
     createElement(
       'sup',
       {
