@@ -4,7 +4,7 @@ import { getData } from '../getData';
 import { renderPagination } from './renderPagination';
 import { getFavorite } from '../controllers/favoriteController';
 
-export const renderProducts = async ({title, params, render}) => {
+export const renderProducts = async ({ title, params, render }) => {
   products.textContent = '';
 
   if (!render) {
@@ -34,7 +34,7 @@ export const renderProducts = async ({title, params, render}) => {
     },
   );
 
-  if (Object.prototype.hasOwnProperty(data, 'totalCount')) {
+  if (data.hasOwnProperty('totalCount')) {
     createElement(
       'sup',
       {
@@ -43,19 +43,18 @@ export const renderProducts = async ({title, params, render}) => {
       },
       { parent: titleElem },
     );
+  }
 
-    if (!data.totalCount) {
-      createElement(
-        'p',
-        {
-          className: 'goods__warning',
-          textContent: 'По вашему запросу ничего не найдено',
-        },
-        { parent: container },
-      );
-
-      return;
-    }
+  if (!data.totalCount) {
+    createElement(
+      'p',
+      {
+        className: 'goods__warning',
+        textContent: 'По вашему запросу ничего не найдено',
+      },
+      { parent: container },
+    );
+    return;
   }
 
   const favoriteList = getFavorite();
