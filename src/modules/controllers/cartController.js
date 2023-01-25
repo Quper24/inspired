@@ -33,7 +33,7 @@ export const calcTotalPrice = {
   elemCount: null,
   updateCount() {
     const cartGoods = getCart();
-    this.count = cartGoods.reduce((acc, item) => item.count + acc, 0);
+    this.count = cartGoods.reduce((acc, item) => +item.count + acc, 0);
     this.writeCount();
 
   },
