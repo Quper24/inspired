@@ -45,7 +45,7 @@ export const renderProducts = async ({ title, params, render }) => {
     );
   }
 
-  if (!data.totalCount) {
+  if (!Array.isArray(data) && !data.totalCount) {
     createElement(
       'p',
       {
