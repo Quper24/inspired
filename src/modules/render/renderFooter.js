@@ -86,12 +86,20 @@ export const renderFooter = () => {
   const container = createElement(
     'div',
     {
-      className: 'container footer__container',
+      className: 'container',
     },
-    { parent: footer, append: createFooterCategory() },
+    { parent: footer },
   );
 
-  container.insertAdjacentHTML(
+  const footerContainer = createElement(
+    'div',
+    {
+      className: 'footer__container',
+    },
+    { parent: container, append: createFooterCategory() },
+  );
+
+  footerContainer.insertAdjacentHTML(
     'beforeend',
     `
       <div class="footer__item footer__item_social footer-social">
