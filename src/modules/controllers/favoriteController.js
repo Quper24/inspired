@@ -44,13 +44,19 @@ export const handlerFavorite = (e) => {
 
 products.addEventListener('click', handlerFavorite);
 
-export const favoriteController = () => {
+export const favoriteController = (routerData) => {
+
+  const params = { list: getFavorite() };
+  if (routerData.params?.page) {
+    params.page = routerData.params.page;
+  }
+
   renderNavigation({repeat: true, render: true});
   renderHero({render: false});
   renderCard({render: false});
   renderProducts({
     title: 'Избранное',
-    params: { list: getFavorite() },
+    params,
     render: true,
   });
   renderCart({ render: false });
